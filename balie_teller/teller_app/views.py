@@ -5,6 +5,7 @@ from django.views import generic
 from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Balie
 
@@ -14,10 +15,10 @@ def index(request):
     context = {'balie': Balie.objects.all(), }
     return render(request, 'teller_app/index.html', context)
 
-@login_required
-class BalieView(generic.DetailView):
+class BalieView(LoginRequiredMixin, generic.DetailView):
     model = Balie
     template_name = 'teller_app/balie.html'
+    login_url = '/admin/'
     
     def post(self, request, *args, **kwargs):
         print(f'post\n{args}\n{kwargs}\n{request}')
