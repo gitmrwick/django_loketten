@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="nl-be">
+<head>
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  {% for balie in balie.all %}
+  <div><a href="{% url 'balie' balie.id %}">{{balie}}</a></div>
+  <div>{{balie.balie_tel}}</div>
+  {% endfor %}
+</body>
+</html>

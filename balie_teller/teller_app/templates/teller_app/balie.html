@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="nl-be">
+<head>
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <div>Naam {{balie.balie_naam}}</div>
+  <div>Nummer {{balie.balie_nummer}}</div>
+  <div>Tel  {{balie.balie_tel}}</div>
+  <form method="post" action={% url 'balie' balie.id %}>
+    {% csrf_token %}
+    <input type="submit" value="Trek Een Nummer" naam="trek" />
+  </form>
+</body>
+</html>
