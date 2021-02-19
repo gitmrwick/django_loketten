@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Balie
+from .models import Balie, Tel
 
 
 @login_required
@@ -21,11 +21,18 @@ class BalieView(LoginRequiredMixin, generic.DetailView):
     login_url = '/admin/'
     
     def post(self, request, *args, **kwargs):
-        print(f'post\n{args}\n{kwargs}\n{request}')
         balie_id = kwargs['pk']
         balie = get_object_or_404(Balie, pk=balie_id)
 
-        balie.tel = balie.tel_master.tel_positie = F('tel_positie') + 1
+        tel_master = Tel.objects.get(id=balie.tel_master.id)
+
+        tel_master.tel_positie = F('tel_positie') + 1
+        tel_master.save()
+
+        tel_master = Tel.objects.get(id=balie.tel_master.id)
+        tel_master.refresh_from_db()
+        balie.balie_tel = tel_master.tel_positie
         balie.save()
+
 
         return HttpResponseRedirect(reverse('balie', args=(balie.id,)))
