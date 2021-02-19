@@ -10,10 +10,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Balie, Tel
 
 
-@login_required
 def index(request):
     context = {'balie': Balie.objects.all(), }
     return render(request, 'teller_app/index.html', context)
+
+@login_required
+def admin(request):
+    context = {'balie': Balie.objects.all(), }
+    return render(request, 'teller_app/admin.html', context)
 
 class BalieView(LoginRequiredMixin, generic.DetailView):
     model = Balie
