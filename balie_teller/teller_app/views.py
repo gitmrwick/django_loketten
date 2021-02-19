@@ -24,12 +24,7 @@ class BalieView(generic.DetailView):
         balie_id = kwargs['pk']
         balie = get_object_or_404(Balie, pk=balie_id)
 
-        balie_groep = Balie.objects.filter(balie_groep__exact=balie.balie_groep)
-        balie_groep_tels = [b.balie_tel for b in balie_groep]
-
-        balie_tel_master = balie.tel_master
-        balie_tel_master_positie = balie_tel_master.tel_positie
-
-        balie.balie_tel = F('balie_tel') + 1
+        balie.tel = balie.tel_master.tel_positie = F('tel_positie') + 1
         balie.save()
+
         return HttpResponseRedirect(reverse('balie', args=(balie.id,)))
